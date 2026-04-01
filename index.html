@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>해외살이, 나한테 맞을까? | 해외살이 적성 테스트</title>
+  <meta name="description" content="언어 실력이나 성격보다 더 중요한 것들이 있어요. 6가지 질문으로 알아보는 나의 해외생활 적성 테스트">
+  <meta property="og:title" content="해외살이, 나한테 맞을까?">
+  <meta property="og:description" content="6가지 질문으로 알아보는 나의 해외생활 적성 테스트">
+  <meta property="og:type" content="website">
+
+  <!-- ========================================
+       GA4 태그 (나중에 직접 붙여넣기)
+       1. GA4 콘솔 → 데이터 스트림 → 태그 안내 보기
+       2. 아래 주석 사이에 코드 붙여넣기
+  ======================================== -->
+  <!-- GA4 START -->
+
+  <!-- GA4 END -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #534AB7;
+      --purple-light: #EEEDFE;
+      --purple-mid: #7F77DD;
+      --purple-dark: #26215C;
+      --bg: #f8f7ff;
+      --card: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #6b6b8a;
+      --border: rgba(83,74,183,0.15);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      width: 100%; max-width: 600px;
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 32px 28px;
+      margin-top: 24px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .intro-icon { font-size: 48px; text-align: center; margin-bottom: 16px; }
+    .intro-title { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 8px; color: var(--text); }
+    .intro-desc { font-size: 14px; color: var(--text-muted); text-align: center; line-height: 1.7; margin-bottom: 20px; }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
+    .tag { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: var(--purple-light); color: var(--purple-dark); font-weight: 500; }
+
+    .prog-wrap { margin-bottom: 20px; }
+    .prog-bar { height: 4px; background: #ebe9fb; border-radius: 2px; }
+    .prog-fill { height: 4px; background: var(--purple); border-radius: 2px; transition: width 0.4s ease; }
+    .step-info { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+
+    .q-text { font-size: 17px; font-weight: 700; line-height: 1.6; margin-bottom: 20px; color: var(--text); }
+
+    .opt {
+      display: flex; align-items: center; gap: 12px;
+      width: 100%; text-align: left;
+      padding: 14px 16px; margin-bottom: 10px;
+      background: #fafafa; border: 1.5px solid #ebe9fb;
+      border-radius: var(--radius-sm);
+      font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text); cursor: pointer; transition: all 0.15s;
+    }
+    .opt:hover { border-color: var(--purple-mid); background: var(--purple-light); color: var(--purple-dark); }
+    .opt.selected { border: 2px solid var(--purple); background: var(--purple-light); color: var(--purple-dark); font-weight: 500; }
+
+    .radio-dot {
+      width: 18px; height: 18px; min-width: 18px;
+      border-radius: 50%; border: 1.5px solid #ccc;
+      background: white; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .opt.selected .radio-dot { border-color: var(--purple); background: var(--purple); }
+    .radio-inner { width: 7px; height: 7px; border-radius: 50%; background: white; opacity: 0; transition: opacity 0.15s; }
+    .opt.selected .radio-inner { opacity: 1; }
+
+    .next-btn {
+      width: 100%; padding: 15px;
+      border-radius: var(--radius-sm); border: none;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer; margin-top: 8px; transition: all 0.2s;
+    }
+    .next-btn.off { background: #ebe9fb; color: #aaa; pointer-events: none; }
+    .next-btn.on { background: var(--purple); color: white; }
+    .next-btn.on:hover { background: var(--purple-dark); }
+
+    .next-hint { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 10px; transition: opacity 0.2s; }
+    .next-hint.hidden { opacity: 0; }
+
+    .res-icon { font-size: 40px; margin-bottom: 12px; }
+    .res-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .res-desc { font-size: 14px; color: var(--text-muted); line-height: 1.75; margin-bottom: 20px; }
+
+    .bar-wrap { margin-bottom: 24px; }
+    .bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+    .bar-bg { height: 8px; background: #ebe9fb; border-radius: 4px; }
+    .bar-fill { height: 8px; border-radius: 4px; background: var(--purple); width: 0%; transition: width 1.2s ease; }
+
+    .share-section { margin-top: 8px; }
+    .share-label { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; text-align: center; }
+    .share-btns { display: flex; gap: 8px; margin-bottom: 8px; }
+
+    .share-btn {
+      flex: 1; padding: 12px 8px;
+      border-radius: var(--radius-sm); border: none;
+      font-size: 13px; font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .share-btn-x { background: #000; color: #fff; }
+    .share-btn-x:hover { background: #333; }
+    .share-btn-insta { background: #d62976; color: #fff; }
+    .share-btn-insta:hover { background: #b5246a; }
+    .share-btn-copy { background: #fafafa; color: var(--text); border: 1.5px solid #ebe9fb; }
+    .share-btn-copy:hover { background: var(--purple-light); }
+    .share-btn-copy.copied { background: #E1F5EE; color: #0F6E56; border-color: #5DCAA5; }
+
+    .action-btn {
+      width: 100%; padding: 13px;
+      background: #fafafa; border: 1.5px solid #ebe9fb;
+      border-radius: var(--radius-sm);
+      font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text); cursor: pointer; margin-top: 8px;
+      transition: background 0.15s;
+    }
+    .action-btn:hover { background: var(--purple-light); }
+
+    footer {
+      margin-top: 24px; font-size: 12px;
+      color: var(--text-muted); text-align: center; line-height: 1.8;
+    }
+    footer a { color: var(--purple); text-decoration: none; }
+
+    @media (max-width: 480px) {
+      .card { padding: 24px 18px; }
+      .q-text { font-size: 15px; }
+      .share-btns { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 AdSense 자리 (승인 후 아래 주석 해제)
+  <div style="width:100%;max-width:600px;margin:16px 0 8px;text-align:center;">
+    AdSense 코드 여기에 붙여넣기
+  </div>
+  -->
+
+  <div class="card">
+
+    <div id="s-intro" class="screen active">
+      <div class="intro-icon">✈️</div>
+      <h1 class="intro-title">해외살이, 나한테 맞을까?</h1>
+      <p class="intro-desc">
+        언어 실력이나 성격보다 더 중요한 것들이 있어요.<br>
+        6가지 질문으로 알아보는 나의 해외생활 적성
+      </p>
+      <div class="tags">
+        <span class="tag">6문항</span>
+        <span class="tag">3분 소요</span>
+        <span class="tag">해외살이 경험담 기반</span>
+      </div>
+      <button class="next-btn on" onclick="startQuiz()">테스트 시작하기</button>
+    </div>
+
+    <div id="s-q1" class="screen">
+      <div class="prog-wrap">
+        <div class="step-info">1 / 6</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:16%"></div></div>
+      </div>
+      <p class="q-text">주말 오후, 갑자기 친구들이 다 바빠졌다. 나는?</p>
+      <div id="opts-q1"></div>
+      <button class="next-btn off" id="n-q1" onclick="go('s-q2')">다음</button>
+      <p class="next-hint" id="h-q1">항목을 선택하면 다음으로 넘어갈 수 있어요</p>
+    </div>
+
+    <div id="s-q2" class="screen">
+      <div class="prog-wrap">
+        <div class="step-info">2 / 6</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:33%"></div></div>
+      </div>
+      <p class="q-text">배달 앱을 켰는데 먹고 싶은 메뉴가 없다. 그나마 있는 것도 배달비에 팁까지 더하면 메뉴 가격보다 비싸다. 나는?</p>
+      <div id="opts-q2"></div>
+      <button class="next-btn off" id="n-q2" onclick="go('s-q3')">다음</button>
+      <p class="next-hint" id="h-q2">항목을 선택하면 다음으로 넘어갈 수 있어요</p>
+    </div>
+
+    <div id="s-q3" class="screen">
+      <div class="prog-wrap">
+        <div class="step-info">3 / 6</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:50%"></div></div>
+      </div>
+      <p class="q-text">새로운 환경에서 사람들과 어울릴 때 나는?</p>
+      <div id="opts-q3"></div>
+      <button class="next-btn off" id="n-q3" onclick="go('s-q4')">다음</button>
+      <p class="next-hint" id="h-q3">항목을 선택하면 다음으로 넘어갈 수 있어요</p>
+    </div>
+
+    <div id="s-q4" class="screen">
+      <div class="prog-wrap">
+        <div class="step-info">4 / 6</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:66%"></div></div>
+      </div>
+      <p class="q-text">오늘 계획이 갑자기 다 틀어졌다. 내 반응은?</p>
+      <div id="opts-q4"></div>
+      <button class="next-btn off" id="n-q4" onclick="go('s-q5')">다음</button>
+      <p class="next-hint" id="h-q4">항목을 선택하면 다음으로 넘어갈 수 있어요</p>
+    </div>
+
+    <div id="s-q5" class="screen">
+      <div class="prog-wrap">
+        <div class="step-info">5 / 6</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:83%"></div></div>
+      </div>
+      <p class="q-text">외국인이 한국에 대해 틀린 말을 아무렇지 않게 한다. 나는?</p>
+      <div id="opts-q5"></div>
+      <button class="next-btn off" id="n-q5" onclick="go('s-q6')">다음</button>
+      <p class="next-hint" id="h-q5">항목을 선택하면 다음으로 넘어갈 수 있어요</p>
+    </div>
+
+    <div id="s-q6" class="screen">
+      <div class="prog-wrap">
+        <div class="step-info">6 / 6</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+      </div>
+      <p class="q-text">나는 남 눈치 보는 편?</p>
+      <div id="opts-q6"></div>
+      <button class="next-btn off" id="n-q6" onclick="showResult()">결과 보기</button>
+      <p class="next-hint" id="h-q6">항목을 선택하면 다음으로 넘어갈 수 있어요</p>
+    </div>
+
+    <div id="s-result" class="screen">
+      <div class="res-icon" id="r-icon"></div>
+      <div class="res-title" id="r-title"></div>
+      <div class="res-desc" id="r-desc"></div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span>해외생활 적응력</span><span id="r-pct">0%</span></div>
+        <div class="bar-bg"><div class="bar-fill" id="r-bar"></div></div>
+      </div>
+      <div class="share-section">
+        <p class="share-label">결과 공유하기</p>
+        <div class="share-btns">
+          <button class="share-btn share-btn-x" onclick="shareX()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X(트위터)
+          </button>
+          <button class="share-btn share-btn-insta" onclick="shareInsta()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            인스타
+          </button>
+          <button class="share-btn share-btn-copy" id="copy-btn" onclick="copyLink()">
+            🔗 링크 복사
+          </button>
+        </div>
+      </div>
+      <button class="action-btn" onclick="resetAll()">다시 해보기</button>
+    </div>
+
+  </div>
+
+  <!-- 하단 AdSense 자리 (승인 후 아래 주석 해제)
+  <div style="width:100%;max-width:600px;margin-top:16px;text-align:center;">
+    AdSense 코드 여기에 붙여넣기
+  </div>
+  -->
+
+  <footer>
+    &copy; 2026 해외살이, 나한테 맞을까?<br>
+    <!-- 포트폴리오 링크 추가 시 아래 주석 해제
+    <a href="https://yourportfolio.com">포트폴리오 보기</a>
+    -->
+  </footer>
+
+  <script>
+    const questions = {
+      q1: [
+        { text: '뭐 할지 몰라서 계속 연락해봄', score: 0 },
+        { text: '좀 허전하지만 하고 싶은 거 찾아서 즐김', score: 1 },
+        { text: '솔직히 혼자가 더 편함', score: 2 }
+      ],
+      q2: [
+        { text: '이럴 거면 한국으로 돌아가야지... 한국 최고', score: 0 },
+        { text: '마트 가서 장 보고 직접 해먹겠어', score: 1 },
+        { text: '오히려 동네 식당 탐험하는 게 재미있을 것 같음', score: 2 }
+      ],
+      q3: [
+        { text: '누군가 먼저 말 걸어주길 기다리는 편', score: 0 },
+        { text: '어색하지만 용기 내서 먼저 말 거는 편', score: 1 },
+        { text: '낯선 사람한테 말 거는 게 오히려 재미있음', score: 2 }
+      ],
+      q4: [
+        { text: '하루 다 망한 기분, 기분 회복이 쉽지 않음', score: 0 },
+        { text: '짜증은 나지만 금방 다른 계획 짬', score: 1 },
+        { text: '오히려 즉흥이 재미있을 때도 있음', score: 2 }
+      ],
+      q5: [
+        { text: '많이 신경 쓰이고 기분이 나쁨. 싸울 각오를 한다', score: 0 },
+        { text: '그럴 수 있다고 생각하지만 정정해줌', score: 1 },
+        { text: '\'모를 수도 있지\' 하고 가볍게 넘김', score: 2 }
+      ],
+      q6: [
+        { text: '꽤 많이, 항상 주변 시선이 신경 쓰임', score: 0 },
+        { text: '보통, 상황에 따라 다름', score: 1 },
+        { text: '별로 안 봄, 내 스타일대로 사는 편', score: 2 }
+      ]
+    };
+
+    const scores = {};
+    let currentResult = '';
+
+    function shuffle(arr) {
+      return arr.slice().sort(() => Math.random() - 0.5);
+    }
+
+    function renderOptions(q) {
+      const container = document.getElementById('opts-' + q);
+      if (!container) return;
+      container.innerHTML = shuffle(questions[q]).map(opt =>
+        `<button class="opt" onclick="pick(this,'${q}',${opt.score})">
+          <span class="radio-dot"><span class="radio-inner"></span></span>${opt.text}
+        </button>`
+      ).join('');
+    }
+
+    function startQuiz() {
+      Object.keys(questions).forEach(q => renderOptions(q));
+      go('s-q1');
+    }
+
+    function pick(el, q, val) {
+      el.parentElement.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      scores[q] = val;
+      const nb = document.getElementById('n-' + q);
+      const hint = document.getElementById('h-' + q);
+      if (nb) { nb.classList.remove('off'); nb.classList.add('on'); }
+      if (hint) { hint.classList.add('hidden'); }
+      // GA4 이벤트 (나중에 주석 해제)
+      // gtag('event', 'question_answered', { question_number: q, answer_value: val });
+    }
+
+    function go(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showResult() {
+      const total = Object.values(scores).reduce((a, b) => a + b, 0);
+      const pct = Math.round((total / 12) * 100);
+      const results = [
+        { icon: '🏠', title: '한국이 체질인 당신', desc: '빠른 배달, 5분 배차 지하철, 24시간 편의점 — 사실 이게 얼마나 대단한 건지 아세요? 해외살이는 그 모든 것과 이별하는 과정이에요. 지금 당장은 아니더라도, 짧은 여행부터 조금씩 경험을 쌓아보는 건 어떨까요?' },
+        { icon: '🌱', title: '조금만 다듬으면 괜찮을 당신', desc: '적응력의 씨앗은 있어요. 다만 편리함에 대한 의존도와 예상치 못한 변수를 즐기는 연습이 조금 더 필요해요. 단기 해외 경험부터 시작해보는 걸 추천해요.' },
+        { icon: '✈️', title: '일단 나가봐야 아는 당신', desc: '생각은 준비됐는데 경험이 아직 없는 타입이에요. 머릿속 시뮬레이션과 현실은 달라요. 일단 나가서 부딪혀보면 생각보다 잘 할 가능성이 높아요.' },
+        { icon: '🌍', title: '이미 준비된 당신', desc: '혼자서도 잘 지내고, 변수에 유연하고, 다름을 가볍게 받아들일 줄 아는 사람. 해외살이가 체질인 사람의 특징을 고루 갖추고 있어요. 언제든 떠날 준비 완료.' }
+      ];
+      const tier = pct < 30 ? 0 : pct < 55 ? 1 : pct < 75 ? 2 : 3;
+      const r = results[tier];
+      currentResult = r.title;
+      document.getElementById('r-icon').textContent = r.icon;
+      document.getElementById('r-title').textContent = r.title;
+      document.getElementById('r-desc').textContent = r.desc;
+      document.getElementById('r-pct').textContent = pct + '%';
+      go('s-result');
+      setTimeout(() => { document.getElementById('r-bar').style.width = pct + '%'; }, 100);
+      // gtag('event', 'quiz_completed', { result_type: r.title, score_pct: pct });
+    }
+
+    function shareX() {
+      const text = `해외살이 적성 테스트 결과: "${currentResult}" 🌍\n\n나는 몇 점 나올까? 👉 ${window.location.href}\n\n#해외살이 #워홀 #해외취업`;
+      window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text), '_blank');
+      // gtag('event', 'result_shared', { platform: 'twitter', result_type: currentResult });
+    }
+
+    function shareInsta() {
+      const text = `해외살이 적성 테스트 결과: "${currentResult}"\n\n나는 몇 점 나올까? 👉 ${window.location.href}\n\n#해외살이 #워홀 #해외취업 #교환학생`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('📋 문구가 복사됐어요!\n인스타그램 앱을 열고 스토리나 게시물에 붙여넣기 하세요 😊');
+      });
+      // gtag('event', 'result_shared', { platform: 'instagram', result_type: currentResult });
+    }
+
+    function copyLink() {
+      const btn = document.getElementById('copy-btn');
+      const url = window.location.href;
+      const doCopy = (text) => {
+        btn.textContent = '✅ 복사됐어요!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = '🔗 링크 복사'; btn.classList.remove('copied'); }, 2500);
+      };
+      navigator.clipboard.writeText(url).then(doCopy).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        doCopy();
+      });
+    }
+
+    function resetAll() {
+      Object.keys(scores).forEach(k => delete scores[k]);
+      Object.keys(questions).forEach(q => renderOptions(q));
+      document.querySelectorAll('.next-btn').forEach(b => {
+        if (b.id) { b.classList.remove('on'); b.classList.add('off'); }
+      });
+      document.querySelectorAll('.next-hint').forEach(h => h.classList.remove('hidden'));
+      go('s-intro');
+    }
+  </script>
+
+</body>
+</html>
