@@ -654,6 +654,7 @@
       }
 
       function startQuiz() {
+        gtag("event", "quiz_start");
         Object.keys(questions).forEach((q) => renderOptions(q));
         go("s-q1");
       }
@@ -673,8 +674,11 @@
         if (hint) {
           hint.classList.add("hidden");
         }
-        // GA4 이벤트 (나중에 주석 해제)
-        // gtag('event', 'question_answered', { question_number: q, answer_value: val });
+        // GA4 이벤트
+        gtag("event", "question_answered", {
+          question_number: q,
+          answer_value: val,
+        });
       }
 
       function go(id) {
@@ -721,7 +725,10 @@
         setTimeout(() => {
           document.getElementById("r-bar").style.width = pct + "%";
         }, 100);
-        // gtag('event', 'quiz_completed', { result_type: r.title, score_pct: pct });
+        gtag("event", "quiz_completed", {
+          result_type: r.title,
+          score_pct: pct,
+        });
       }
 
       function shareX() {
@@ -730,7 +737,10 @@
           "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text),
           "_blank",
         );
-        // gtag('event', 'result_shared', { platform: 'twitter', result_type: currentResult });
+        gtag("event", "result_shared", {
+          platform: "twitter",
+          result_type: currentResult,
+        });
       }
 
       function shareInsta() {
@@ -740,7 +750,10 @@
             "📋 문구가 복사됐어요!\n인스타그램 앱을 열고 스토리나 게시물에 붙여넣기 하세요 😊",
           );
         });
-        // gtag('event', 'result_shared', { platform: 'instagram', result_type: currentResult });
+        gtag("event", "result_shared", {
+          platform: "instagram",
+          result_type: currentResult,
+        });
       }
 
       function copyLink() {
