@@ -329,10 +329,21 @@
       .share-section {
         margin-top: 8px;
       }
+      .share-nudge {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--purple-dark);
+        text-align: center;
+        margin-bottom: 6px;
+        padding: 12px 16px;
+        background: var(--purple-light);
+        border-radius: var(--radius-sm);
+      }
       .share-label {
         font-size: 12px;
         color: var(--text-muted);
         margin-bottom: 10px;
+        margin-top: 10px;
         text-align: center;
       }
       .share-btns {
@@ -355,6 +366,13 @@
         align-items: center;
         justify-content: center;
         gap: 6px;
+      }
+      .share-btn-kakao {
+        background: #fee500;
+        color: #3c1e1e;
+      }
+      .share-btn-kakao:hover {
+        background: #f0d800;
       }
       .share-btn-x {
         background: #000;
@@ -493,6 +511,13 @@
         line-height: 1.6;
       }
     </style>
+    <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Kakao.init("e9c46c8bd299d7ee97bb5261772092af");
+    </script>
   </head>
   <body>
     <!-- 쿠키 동의 배너 -->
@@ -667,15 +692,24 @@
           <div class="bar-bg"><div class="bar-fill" id="r-bar"></div></div>
         </div>
         <div class="share-section">
+          <p class="share-nudge">🤔 친구는 몇 점일까? 같이 테스트해봐!</p>
           <p class="share-label">결과 공유하기</p>
           <div class="share-btns">
+            <button class="share-btn share-btn-kakao" onclick="shareKakao()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#3C1E1E">
+                <path
+                  d="M12 3C6.477 3 2 6.477 2 10.5c0 2.632 1.553 4.946 3.9 6.308L4.8 21l4.35-2.7c.933.19 1.889.3 2.85.3 5.523 0 10-3.477 10-7.5S17.523 3 12 3z"
+                />
+              </svg>
+              카카오톡
+            </button>
             <button class="share-btn share-btn-x" onclick="shareX()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
                 <path
                   d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"
                 />
               </svg>
-              X(트위터)
+              X
             </button>
             <button class="share-btn share-btn-insta" onclick="shareInsta()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
@@ -685,16 +719,17 @@
               </svg>
               인스타
             </button>
-            <button
-              class="share-btn share-btn-copy"
-              id="copy-btn"
-              onclick="copyLink()"
-            >
-              🔗 링크 복사
-            </button>
           </div>
+          <button
+            class="share-btn share-btn-copy"
+            id="copy-btn"
+            onclick="copyLink()"
+            style="width: 100%; margin-top: 0"
+          >
+            🔗 링크 복사
+          </button>
         </div>
-        <button class="action-btn" onclick="resetAll()">다시 해보기</button>
+        <button class="action-btn" onclick="resetAll()">↩️ 다시 해보기</button>
         <p class="res-disclaimer">
           ⚠️ 이 테스트는 재미로 보는 간단한 성향 체크예요. 6가지 질문만으로
           해외생활 적합도를 단정할 수 없으며, 결과를 진지하게 받아들이기보다
@@ -880,12 +915,56 @@
         });
       }
 
+      function shareKakao() {
+        // 카카오 SDK 초기화 확인
+        if (!window.Kakao || !Kakao.isInitialized()) {
+          // SDK 미초기화 시 링크 복사로 fallback
+          copyLink();
+          const btn = document.getElementById("copy-btn");
+          btn.textContent = "✅ 카카오 준비 중 — 링크 복사됐어요!";
+          setTimeout(() => {
+            btn.textContent = "🔗 링크 복사";
+          }, 2500);
+          return;
+        }
+        Kakao.Share.sendDefault({
+          objectType: "feed",
+          content: {
+            title: `나의 해외살이 적성: "${currentResult}"`,
+            description: "친구는 몇 점일까? 같이 테스트해봐!",
+            imageUrl: "https://overseas-quiz.vercel.app/og-image.png",
+            link: {
+              mobileWebUrl: "https://overseas-quiz.vercel.app/",
+              webUrl: "https://overseas-quiz.vercel.app/",
+            },
+          },
+          buttons: [
+            {
+              title: "나도 테스트하기",
+              link: {
+                mobileWebUrl: "https://overseas-quiz.vercel.app/",
+                webUrl: "https://overseas-quiz.vercel.app/",
+              },
+            },
+          ],
+        });
+        gtag("event", "result_shared", {
+          platform: "kakao",
+          result_type: currentResult,
+        });
+      }
+
       function shareInsta() {
-        const text = `해외살이 적성 테스트 결과: "${currentResult}"\n\n나는 어떤 타입? 👉 ${window.location.href}\n\n#해외살이 #워홀 #해외취업 #팀해외살이테스트`;
+        const text = `해외살이 적성 테스트 결과: "${currentResult}"\n\n친구는 몇 점일까? 같이 해봐! 👉 ${window.location.href}\n\n#해외살이 #워홀 #해외취업`;
         navigator.clipboard.writeText(text).then(() => {
-          alert(
-            "📋 문구가 복사됐어요!\n인스타그램 앱을 열고 스토리나 게시물에 붙여넣기 하세요 😊",
-          );
+          const btn = document.querySelector(".share-btn-insta");
+          const orig = btn.innerHTML;
+          btn.textContent = "✅ 복사됐어요! 인스타에 붙여넣기 하세요";
+          btn.style.fontSize = "11px";
+          setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.style.fontSize = "";
+          }, 3000);
         });
         gtag("event", "result_shared", {
           platform: "instagram",
